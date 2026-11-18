@@ -1,0 +1,11 @@
+{
+  "name": "Calculadora FV - Barras de Estrutura",
+  "short_name": "Calculadora FV",
+  "description": "Calcula barras para estruturas fotovoltaicas.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0c1712",
+  "theme_color": "#123b2a",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
