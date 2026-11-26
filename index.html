@@ -1,95 +1,57 @@
 <!doctype html>
-<html lang="pt-PT">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#123b2a">
-<meta name="description" content="Calculadora de barras para estruturas fotovoltaicas.">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icon.svg" type="image/svg+xml">
+<html lang="pt-PT"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#123b2a"><meta name="description" content="Calculadora de material para estruturas fotovoltaicas.">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml">
 <title>Calculadora FV</title>
 <style>
 :root{color-scheme:dark;--bg:#0c1712;--card:#15251d;--muted:#a8b8ae;--green:#8de0a8;--line:#2d4638}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#10271b,#0b1510 60%);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#f3f8f4;min-height:100vh}
-main{max-width:520px;margin:auto;padding:24px 18px 40px}
-header{display:flex;align-items:center;gap:12px;margin:8px 0 24px}
-.logo{width:48px;height:48px;border-radius:15px;background:#1e5638;display:grid;place-items:center;font-size:25px}
-h1{font-size:22px;margin:0}header p{margin:3px 0 0;color:var(--muted);font-size:13px}
-.card{background:rgba(21,37,29,.96);border:1px solid var(--line);border-radius:20px;padding:18px;margin:14px 0;box-shadow:0 12px 35px #0003}
-label{display:block;font-size:14px;color:#d6e3da;margin:12px 0 7px}
-input{width:100%;border:1px solid #496453;background:#0d1912;color:white;border-radius:12px;padding:14px;font-size:18px;outline:none}
-input:focus{border-color:var(--green);box-shadow:0 0 0 3px #8de0a822}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.result{background:#0d1c13;border:1px solid #31523d;border-radius:16px;padding:16px;margin-top:16px}
-.big{font-size:38px;font-weight:800;line-height:1.1;color:var(--green);font-variant-numeric:tabular-nums}
-.small{font-size:12px;color:var(--muted);margin-top:6px}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-.stat{background:#1c3024;border-radius:12px;padding:12px}.stat strong{display:block;font-size:20px}.stat span{font-size:12px;color:var(--muted)}
-button{border:0;border-radius:13px;padding:14px 16px;font-weight:700;font-size:15px;cursor:pointer}
-.primary{background:var(--green);color:#102016;width:100%;margin-top:14px}
-.secondary{background:#263d2e;color:#eaf5ed;width:100%;margin-top:10px}
-.note{font-size:12px;line-height:1.5;color:var(--muted)}
-.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;padding:9px 7px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--green)}
-footer{text-align:center;color:#82958a;font-size:11px;padding:18px}
-</style>
-</head>
-<body>
-<main>
-<header><div class="logo">☀️</div><div><h1>Calculadora FV</h1><p>Barras para estrutura fotovoltaica</p></div></header>
-<section class="card">
-  <h2 style="font-size:17px;margin:0">Material para a obra</h2>
-  <label for="panels">Número de painéis</label>
-  <input id="panels" type="number" min="0" step="1" value="9" inputmode="numeric">
-  <div class="grid">
-    <div><label for="perPanel">Metros por painel (por linha)</label><input id="perPanel" type="number" min="0.01" step="0.01" value="1.20" inputmode="decimal"></div>
-    <div><label for="barLength">Comprimento da barra (m)</label><input id="barLength" type="number" min="0.01" step="0.01" value="3.60" inputmode="decimal"></div>
-  </div>
-  <label for="rows">Linhas de estrutura</label>
-  <input id="rows" type="number" min="1" step="1" value="2" inputmode="numeric">
-  <div class="result">
-    <div class="small">BARRAS A CARREGAR</div>
-    <div class="big" id="bars">6 barras</div>
-    <div class="stats">
-      <div class="stat"><strong id="metres">10,80 m</strong><span>Metros por linha</span></div>
-      <div class="stat"><strong id="total">21,60 m</strong><span>Metros totais</span></div>
-    </div>
-    <button class="primary" id="copy">Copiar resumo da obra</button>
-  </div>
-</section>
-<section class="card">
-  <h2 style="font-size:17px;margin:0 0 10px">Tabela rápida</h2>
-  <div class="tablewrap"><table><thead><tr><th>Painéis</th><th>Metros/linha</th><th>Barras</th></tr></thead><tbody id="guide"></tbody></table></div>
-  <p class="note">A tabela usa os valores configurados acima e calcula as barras para o número de linhas indicado.</p>
-</section>
-<section class="card">
-  <h2 style="font-size:16px;margin:0 0 8px">Instalar no telemóvel</h2>
-  <p class="note" style="margin:0">Depois de publicares esta app num endereço HTTPS, abre o endereço no Chrome e escolhe <b>Instalar aplicação</b> ou <b>Adicionar ao ecrã principal</b>. A app foi preparada para funcionar offline depois da primeira abertura.</p>
-  <button class="secondary" id="install" hidden>Instalar aplicação</button>
-</section>
-<footer>Calculadora de apoio — confirma cortes, emendas e disposição dos painéis em cada obra.</footer>
-</main>
-<script>
-const $=id=>document.getElementById(id);
-const fmt=n=>Number(n).toLocaleString('pt-PT',{minimumFractionDigits:2,maximumFractionDigits:2});
+main{max-width:520px;margin:auto;padding:24px 18px 40px}header{display:flex;align-items:center;gap:12px;margin:8px 0 24px}.logo{width:48px;height:48px;border-radius:15px;background:#1e5638;display:grid;place-items:center;font-size:25px}
+h1{font-size:22px;margin:0}header p{margin:3px 0 0;color:var(--muted);font-size:13px}.card{background:rgba(21,37,29,.96);border:1px solid var(--line);border-radius:20px;padding:18px;margin:14px 0;box-shadow:0 12px 35px #0003}
+label{display:block;font-size:14px;color:#d6e3da;margin:12px 0 7px}input{width:100%;border:1px solid #496453;background:#0d1912;color:white;border-radius:12px;padding:14px;font-size:18px;outline:none}
+input:focus{border-color:var(--green);box-shadow:0 0 0 3px #8de0a822}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.result{background:#0d1c13;border:1px solid #31523d;border-radius:16px;padding:16px;margin-top:16px}
+.big{font-size:38px;font-weight:800;line-height:1.1;color:var(--green);font-variant-numeric:tabular-nums}.small{font-size:12px;color:var(--muted);margin-top:6px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.stat{background:#1c3024;border-radius:12px;padding:12px}.stat strong{display:block;font-size:20px}.stat span{font-size:12px;color:var(--muted)}
+button{border:0;border-radius:13px;padding:14px 16px;font-weight:700;font-size:15px;cursor:pointer}.primary{background:var(--green);color:#102016;width:100%;margin-top:14px}
+.note{font-size:12px;line-height:1.5;color:var(--muted)}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;padding:9px 7px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--green)}
+.rowpill{display:inline-block;background:#1c3024;border-radius:9px;padding:7px 10px;margin:4px 4px 0 0;font-size:13px}.footer{text-align:center;color:#82958a;font-size:11px;padding:18px}
+</style></head><body><main>
+<header><div class="logo">☀️</div><div><h1>Calculadora FV</h1><p>Barras e acessórios para a obra</p></div></header>
+<section class="card"><h2 style="font-size:17px;margin:0">Dados da instalação</h2>
+<label for="panels">Número total de painéis</label><input id="panels" type="number" min="1" step="1" value="8" inputmode="numeric">
+<label for="rows">Número de filas</label><input id="rows" type="number" min="1" step="1" value="2" inputmode="numeric">
+<div class="grid"><div><label for="perPanel">Metros por painel</label><input id="perPanel" type="number" min="0.01" step="0.01" value="1.20" inputmode="decimal"></div>
+<div><label for="barLength">Comprimento da barra (m)</label><input id="barLength" type="number" min="0.01" step="0.01" value="3.60" inputmode="decimal"></div></div></section>
+<section class="card"><h2 style="font-size:17px;margin:0 0 10px">Distribuição dos painéis</h2><div id="distribution"></div></section>
+<section class="card"><h2 style="font-size:17px;margin:0 0 10px">Material necessário</h2>
+<div class="result"><div class="small">BARRAS A CARREGAR — TOTAL DA INSTALAÇÃO</div><div class="big" id="bars">6 barras</div><div class="stats">
+<div class="stat"><strong id="metres">9,60 m</strong><span>Metros por fila mais comprida</span></div>
+<div class="stat"><strong id="totalMetres">19,20 m</strong><span>Metros totais das filas</span></div></div></div>
+<div class="stats">
+<div class="stat"><strong id="finals">8</strong><span>Acessórios finais (4 por fila)</span></div>
+<div class="stat"><strong id="intermediates">12</strong><span>Acessórios intermédios (2 por união)</span></div></div>
+<div class="result"><div class="small">TOTAL DE ACESSÓRIOS</div><div class="big" id="accessoryTotal">20</div></div>
+<button class="primary" id="copy">Copiar resumo da obra</button></section>
+<section class="card"><h2 style="font-size:17px;margin:0 0 10px">Tabela guia de barras</h2><div class="tablewrap"><table><thead><tr><th>Painéis</th><th>Metros/linha</th><th>Barras</th></tr></thead><tbody id="guide"></tbody></table></div><p class="note">A tabela de barras é aplicada ao total de painéis, independentemente do número de filas. Os acessórios são calculados fila a fila.</p></section>
+<p class="footer">Calculadora de apoio. Confirma sempre cortes, emendas e configuração real da estrutura.</p>
+</main><script>
+const $=id=>document.getElementById(id);const fmt=n=>Number(n).toLocaleString('pt-PT',{minimumFractionDigits:2,maximumFractionDigits:2});
 function calc(){
- const p=Math.max(0,Math.floor(Number($('panels').value)||0));
- const m=Number($('perPanel').value)||0, b=Number($('barLength').value)||0;
- const r=Math.max(1,Math.floor(Number($('rows').value)||1));
- const per=p*m, bars=(b>0&&per>0)?Math.ceil((per-1e-9)/b)*r:0;
+ const p=Math.max(1,Math.floor(Number($('panels').value)||1));
+ const r=Math.min(p,Math.max(1,Math.floor(Number($('rows').value)||1)));
+ $('rows').value=r;
+ const m=Math.max(.01,Number($('perPanel').value)||1.2), b=Math.max(.01,Number($('barLength').value)||3.6);
+ const base=Math.floor(p/r),rem=p%r,dist=Array.from({length:r},(_,i)=>base+(i<rem?1:0));
+ const bars=Math.ceil(p/3)*2, finals=r*4, intermediates=2*(p-r);
+ const longest=Math.max(...dist)*m,total=dist.reduce((s,n)=>s+n*m,0);
  $('bars').textContent=bars+' '+(bars===1?'barra':'barras');
- $('metres').textContent=fmt(per)+' m'; $('total').textContent=fmt(per*r)+' m';
- let rows=''; for(let n=1;n<=20;n++){const len=n*m;const qty=b>0?Math.ceil((len-1e-9)/b)*r:0;rows+=`<tr><td>${n}</td><td>${fmt(len)} m</td><td><b>${qty}</b></td></tr>`}
- $('guide').innerHTML=rows;
+ $('metres').textContent=fmt(longest)+' m';$('totalMetres').textContent=fmt(total)+' m';
+ $('finals').textContent=finals;$('intermediates').textContent=intermediates;$('accessoryTotal').textContent=finals+intermediates;
+ $('distribution').innerHTML=dist.map((n,i)=>'<span class="rowpill">Fila '+(i+1)+': <b>'+n+' painéis</b></span>').join('');
+ let t='';for(let n=1;n<=20;n++)t+='<tr><td>'+n+'</td><td>'+fmt(n*m)+' m</td><td><b>'+(Math.ceil(n/3)*2)+'</b></td></tr>';$('guide').innerHTML=t;
 }
-['panels','perPanel','barLength','rows'].forEach(id=>$(id).addEventListener('input',calc));
-$('copy').addEventListener('click',async()=>{
- const summary=`Calculadora FV\nPainéis: ${$('panels').value}\nMetros por linha: ${$('metres').textContent}\nLinhas: ${$('rows').value}\nBarras de ${$('barLength').value} m: ${$('bars').textContent}\nMetros totais: ${$('total').textContent}`;
- try{await navigator.clipboard.writeText(summary);$('copy').textContent='Resumo copiado!';setTimeout(()=>$('copy').textContent='Copiar resumo da obra',1800)}
- catch(e){$('copy').textContent='Não foi possível copiar';}
-});
-let promptEvent;$('install').addEventListener('click',async()=>{if(promptEvent){promptEvent.prompt();await promptEvent.userChoice;promptEvent=null;$('install').hidden=true}});
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();promptEvent=e;$('install').hidden=false});
-if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js');
-calc();
-</script>
-</body></html>
+['panels','rows','perPanel','barLength'].forEach(id=>$(id).addEventListener('input',calc));
+$('copy').addEventListener('click',async()=>{const p=$('panels').value,r=$('rows').value;const summary='Calculadora FV\nPainéis: '+p+'\nFilas: '+r+'\nDistribuição: '+Array.from({length:Number(r)},(_,i)=>Math.floor(p/r)+(i<p%r?1:0)).join(' + ')+'\nBarras de '+$('barLength').value+' m: '+$('bars').textContent+'\nAcessórios finais: '+$('finals').textContent+'\nAcessórios intermédios: '+$('intermediates').textContent+'\nTotal acessórios: '+$('accessoryTotal').textContent;try{await navigator.clipboard.writeText(summary);$('copy').textContent='Resumo copiado!';setTimeout(()=>$('copy').textContent='Copiar resumo da obra',1800)}catch(e){$('copy').textContent='Não foi possível copiar'}});
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js');calc();
+</script></body></html>
