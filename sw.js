@@ -1,5 +1,5 @@
 const CACHE="calculadora-fv-v5";
-const FILES=["./","./index.html","./manifest.webmanifest","./icon.svg"];
+const FILES=["./","./index.html","./manifest.webmanifest","./icon.svg","./intermedio_atualizado.jpg"];
 self.addEventListener("install",event=>{
   self.skipWaiting();
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)));
