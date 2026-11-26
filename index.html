@@ -39,8 +39,9 @@ button{border:0;border-radius:13px;padding:14px 16px;font-weight:700;font-size:1
 const $=id=>document.getElementById(id);const fmt=n=>Number(n).toLocaleString('pt-PT',{minimumFractionDigits:2,maximumFractionDigits:2});
 function calc(){
  const p=Math.max(1,Math.floor(Number($('panels').value)||1));
- const r=Math.min(p,Math.max(1,Math.floor(Number($('rows').value)||1)));
- $('rows').value=r;
+ const rawRows=$('rows').value.trim();
+ const requestedRows=rawRows===''?1:Math.floor(Number(rawRows));
+ const r=Math.min(p,Math.max(1,Number.isFinite(requestedRows)?requestedRows:1));
  const m=Math.max(.01,Number($('perPanel').value)||1.2), b=Math.max(.01,Number($('barLength').value)||3.6);
  const base=Math.floor(p/r),rem=p%r,dist=Array.from({length:r},(_,i)=>base+(i<rem?1:0));
  const bars=Math.ceil(p/3)*2, finals=r*4, intermediates=2*(p-r);
@@ -52,6 +53,8 @@ function calc(){
  let t='';for(let n=1;n<=20;n++)t+='<tr><td>'+n+'</td><td>'+fmt(n*m)+' m</td><td><b>'+(Math.ceil(n/3)*2)+'</b></td></tr>';$('guide').innerHTML=t;
 }
 ['panels','rows','perPanel','barLength'].forEach(id=>$(id).addEventListener('input',calc));
+$('rows').addEventListener('change',()=>{const p=Math.max(1,Math.floor(Number($('panels').value)||1));const r=Math.max(1,Math.floor(Number($('rows').value)||1));$('rows').value=Math.min(p,r);calc();});
+$('panels').addEventListener('change',()=>{const p=Math.max(1,Math.floor(Number($('panels').value)||1));const r=Math.max(1,Math.floor(Number($('rows').value)||1));if(r>p)$('rows').value=p;calc();});
 $('copy').addEventListener('click',async()=>{const p=$('panels').value,r=$('rows').value;const summary='Calculadora FV\nPainéis: '+p+'\nFilas: '+r+'\nDistribuição: '+Array.from({length:Number(r)},(_,i)=>Math.floor(p/r)+(i<p%r?1:0)).join(' + ')+'\nBarras de '+$('barLength').value+' m: '+$('bars').textContent+'\nAcessórios finais: '+$('finals').textContent+'\nAcessórios intermédios: '+$('intermediates').textContent+'\nTotal acessórios: '+$('accessoryTotal').textContent;try{await navigator.clipboard.writeText(summary);$('copy').textContent='Resumo copiado!';setTimeout(()=>$('copy').textContent='Copiar resumo da obra',1800)}catch(e){$('copy').textContent='Não foi possível copiar'}});
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js');calc();
 </script></body></html>
