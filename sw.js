@@ -1,4 +1,4 @@
-const CACHE="calculadora-fv-v4";
+const CACHE="calculadora-fv-v5";
 const FILES=["./","./index.html","./manifest.webmanifest","./icon.svg"];
 self.addEventListener("install",event=>{
   self.skipWaiting();
