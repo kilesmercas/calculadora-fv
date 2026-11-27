@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 420">
+<defs>
+ <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8f8f8"/><stop offset=".45" stop-color="#b9bdc2"/><stop offset=".72" stop-color="#e7e8ea"/><stop offset="1" stop-color="#8d9298"/></linearGradient>
+ <linearGradient id="edge" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#777d83"/><stop offset="1" stop-color="#d9dcdf"/></linearGradient>
+</defs>
+<rect width="520" height="420" fill="#fff"/>
+<g stroke="#858b91" stroke-width="3" stroke-linejoin="round">
+ <path d="M92 180 L354 180 L390 212 L390 285 L350 318 L116 318 L92 294 Z" fill="url(#metal)"/>
+ <path d="M116 180 L116 150 L350 150 L390 180" fill="#e9ebed"/>
+ <path d="M140 285 L140 330 L180 355 L352 355 L352 318" fill="url(#edge)"/>
+ <path d="M175 180 L175 128 L375 128 L404 158 L404 190" fill="url(#metal)"/>
+ <path d="M204 128 L204 94 L370 94 L392 115 L392 128" fill="url(#metal)"/>
+ <path d="M250 94 L250 66 L319 66 L319 94" fill="url(#metal)"/>
+ <ellipse cx="284" cy="67" rx="35" ry="12" fill="#777d83"/>
+ <ellipse cx="284" cy="67" rx="22" ry="7" fill="#25292d"/>
+ <path d="M269 67 L269 45 L299 45 L299 67" fill="url(#metal)"/>
+ <path d="M274 45 L274 36 L294 36 L294 45" fill="#777d83"/>
+ <path d="M240 180 L240 212 L328 212 L328 180" fill="#c6cacf"/>
+ <path d="M253 212 L253 260 L316 260 L316 212" fill="url(#metal)"/>
+ <path d="M263 260 L263 289 L306 289 L306 260" fill="url(#edge)"/>
+</g>
+<g fill="none" stroke="#fff" stroke-width="5" opacity=".65"><path d="M130 190 L340 190"/><path d="M190 105 L360 105"/></g>
+<text x="260" y="395" text-anchor="middle" font-family="Arial,sans-serif" font-size="17" fill="#555">Grampo intermédio</text>
+</svg>
